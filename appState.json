@@ -27,7 +27,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "hiru0108_issue667/lambda.js",
-        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You can pass the existing connection to this function.\n    // A new connection will be created if it's not present as the third param \n    // You must always end/destroy the DB connection after it's used\n    rds.query({\n        instanceIdentifier: 'hirutest',\n        query: 'INSERT into test (name, id , pass)',\n        inserts: [1, 'hiru', 'test']\n    }, function (error, results, connection) {\n        if (error) {\n            console.log(\"Error occurred\");\n            throw error;\n        } else {\n            console.log(\"Success\")\n            console.log(results);\n        }\n\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You can pass the existing connection to this function.\n    // A new connection will be created if it's not present as the third param \n    // You must always end/destroy the DB connection after it's used\n\n    // You can pass the existing connection to this function.\n    // A new connection will be created if it's not present as the third param \n    // You must always end/destroy the DB connection after it's used\n    rds.query({\n        instanceIdentifier: 'hirudinee',\n        query: 'insert into test (id)',\n        inserts: [1]\n    }, function (error, results, connection) {\n        if (error) {\n            console.log(\"Error occurred\");\n            throw error;\n        } else {\n            console.log(\"Success\")\n            console.log(results);\n        }\n\n        connection.end();\n    });\n\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -148,7 +148,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "hiru0108_issue667/ConnectionManager.js",
-        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"hirutest\"] = {\n        host: process.env.EndPoint_rdsHirutest,\n        port: process.env.Port_rdsHirutest,\n        user: process.env.User_rdsHirutest,\n        password: process.env.Password_rdsHirutest,\n        database: \"test\"\n    };\n};"
+        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"hirutest\"] = {\n        host: process.env.EndPoint_rdsHirutest,\n        port: process.env.Port_rdsHirutest,\n        user: process.env.User_rdsHirutest,\n        password: process.env.Password_rdsHirutest,\n        database: \"test\"\n    };\n    this.dbConnections[\"hirudinee\"] = {\n        host: process.env.EndPoint_rdsHirudinee,\n        port: process.env.Port_rdsHirudinee,\n        user: process.env.User_rdsHirudinee,\n        password: process.env.Password_rdsHirudinee,\n        database: \"hirudinee\"\n    };\n};"
       }
     },
     "deletedFiles": [],
@@ -197,6 +197,48 @@
           "params": {
             "query": "INSERT into test (name, id , pass)",
             "inserts": "1, 'hiru', 'test'"
+          },
+          "isGlobalEditMode": false,
+          "enableInject": true,
+          "isNewFromGlobal": false
+        }
+      },
+      "rds-hirudinee": {
+        "name": "rds-hirudinee",
+        "type": "RDS",
+        "config": {
+          "editMode": false,
+          "operation": 0,
+          "rdsInstance": {
+            "rdsEngineType": "mysql",
+            "rdsEdition": "",
+            "rdsInstanceSpec": {
+              "dbInstanceClass": "db.m3.xlarge",
+              "dbLicenseModel": "general-public-license",
+              "dbEngineVersion": "5.7.19"
+            },
+            "rdsSetting": {
+              "instanceIdentifier": "hirudinee",
+              "masterUsername": "hirudinee",
+              "masterPassword": "12345678"
+            },
+            "rdsDBOptions": {
+              "dbName": "hirudinee",
+              "dbPort": "3306"
+            },
+            "rdsInstanceArn": "",
+            "Host": "",
+            "doesExist": false,
+            "initializationQuery": "",
+            "alreadyDeployed": false
+          },
+          "rdsInstanceResources": [],
+          "projectRegion": "us-east-1",
+          "mode": 0,
+          "additionalFiles": [],
+          "params": {
+            "query": "insert into test (id)",
+            "inserts": "1"
           },
           "isGlobalEditMode": false,
           "enableInject": true,
@@ -253,14 +295,19 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1564638612103
+    "lastSave": 1564638843156
   },
   "VCS_STATE": {
     "provider": "GitHub",
     "repo": {
       "name": "hiru0108_issue667",
       "url": "https://github.com/HirudineeADRT/hiru0108_issue667",
-      "branches": []
+      "branches": [
+        {
+          "name": "master",
+          "hash": "9d03505e05f2bcdd665c0f42db67e733c8bb2d8e"
+        }
+      ]
     }
   }
 }
